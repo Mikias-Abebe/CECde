@@ -52,7 +52,6 @@ const slides = [
   {
     type: 'welcome', // Slide 1: Trilingual Welcome Banner
     image: '/Slide1.jpg',
-    bg: 'bg-gradient-to-r from-indigo-950 via-slate-900 to-indigo-900'
   },
   {
     type: 'verse',
@@ -62,7 +61,6 @@ const slides = [
     enRef: 'John 3:16',
     amVerse: '“በእርሱ የሚያምን ሁሉ የዘላለም ሕይወት እንዲኖረው እንጂ እንዳይጠፋ እግዚአብሔር አንድያ ልጁን እስኪሰጥ ድረስ ዓለሙን እንዲሁ ወዶአልና።”',
     amRef: 'ዮሐንስ 3:16',
-    bg: 'bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900'
   },
   {
     type: 'verse',
@@ -72,7 +70,6 @@ const slides = [
     enRef: 'Romans 12:12',
     amVerse: '“በተስፋ ደስ ይበላችሁ፤ በመከራ ታገሡ፤ በጸሎት ጽኑ፤”',
     amRef: 'ሮሜ 12:12',
-    bg: 'bg-gradient-to-r from-slate-900 via-purple-950 to-slate-900'
   },
   {
     type: 'verse',
@@ -82,7 +79,6 @@ const slides = [
     enRef: 'Psalm 23:1',
     amVerse: '“እግዚአብሔር እረኛዬ ነው፥ የሚያጎድልብኝም የለኝም።”',
     amRef: 'መዝሙር 23:1',
-    bg: 'bg-gradient-to-r from-indigo-950 via-slate-900 to-blue-950'
   }
 ];
 
