@@ -1,10 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-
 import SermonsSection from './components/SermonsSection';
-
-
 
 // Language Translations for Interface Elements
 const translations = {
@@ -91,6 +88,7 @@ const slides = [
 export default function Home() {
   const [lang, setLang] = useState<'de' | 'en'>('de');
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const t = translations[lang];
 
   // Auto-advance slider every 6 seconds
@@ -110,24 +108,24 @@ export default function Home() {
           
           {/* Church Brand Name & Amharic Subtitle */}
           <div>
-            <h1 className="text-xl md:text-2xl font-bold text-indigo-950 tracking-tight">
+            <h1 className="text-lg md:text-2xl font-bold text-indigo-950 tracking-tight leading-tight">
               Christ’s Evangelical Church in Munich
             </h1>
-            <p className="text-sm md:text-base font-semibold text-amber-700">
+            <p className="text-xs md:text-base font-semibold text-amber-700">
               የክርስቶስ ወንጌላዊት ቤተክርስቲያን
             </p>
           </div>
 
-          {/* Navigation Items */}
-          <div className="flex items-center space-x-6">
-            <nav className="hidden md:flex space-x-6 text-sm font-bold text-slate-700">
+          {/* Desktop Navigation Items */}
+          <div className="hidden md:flex items-center space-x-6">
+            <nav className="flex space-x-6 text-sm font-bold text-slate-700">
               <a href="#home" className="hover:text-indigo-600 transition">{t.nav.home}</a>
               <a href="#about" className="hover:text-indigo-600 transition">{t.nav.about}</a>
               <a href="#youth" className="hover:text-indigo-600 transition">{t.nav.youth}</a>
               <a href="#sermons" className="hover:text-indigo-600 transition">{t.nav.sermons}</a>
             </nav>
 
-            {/* Language Switcher */}
+            {/* Desktop Language Switcher */}
             <div className="flex border border-slate-300 rounded-md overflow-hidden text-xs font-bold">
               <button
                 onClick={() => setLang('de')}
@@ -143,7 +141,81 @@ export default function Home() {
               </button>
             </div>
           </div>
+
+          {/* Mobile Hamburger Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden text-slate-800 p-2 rounded-lg hover:bg-slate-100 focus:outline-none"
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? (
+              // Close Icon (X)
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              // Hamburger Icon
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
+          </button>
         </div>
+
+        {/* Mobile Drop-down Navigation Drawer */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-white border-t border-slate-100 px-6 py-4 space-y-4 shadow-lg animate-fadeIn">
+            <nav className="flex flex-col space-y-3 font-semibold text-slate-700">
+              <a 
+                href="#home" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="hover:text-indigo-600 py-1 border-b border-slate-50"
+              >
+                {t.nav.home}
+              </a>
+              <a 
+                href="#about" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="hover:text-indigo-600 py-1 border-b border-slate-50"
+              >
+                {t.nav.about}
+              </a>
+              <a 
+                href="#youth" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="hover:text-indigo-600 py-1 border-b border-slate-50"
+              >
+                {t.nav.youth}
+              </a>
+              <a 
+                href="#sermons" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="hover:text-indigo-600 py-1"
+              >
+                {t.nav.sermons}
+              </a>
+            </nav>
+
+            {/* Mobile Language Switcher */}
+            <div className="pt-2 flex items-center justify-between border-t border-slate-100">
+              <span className="text-xs font-bold text-slate-500">Sprache / Language:</span>
+              <div className="flex border border-slate-300 rounded-md overflow-hidden text-xs font-bold">
+                <button
+                  onClick={() => { setLang('de'); setIsMobileMenuOpen(false); }}
+                  className={`px-3 py-1.5 transition ${lang === 'de' ? 'bg-indigo-900 text-white' : 'bg-slate-100 text-slate-600'}`}
+                >
+                  DE
+                </button>
+                <button
+                  onClick={() => { setLang('en'); setIsMobileMenuOpen(false); }}
+                  className={`px-3 py-1.5 transition ${lang === 'en' ? 'bg-indigo-900 text-white' : 'bg-slate-100 text-slate-600'}`}
+                >
+                  EN
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* 2. Hero Photo & Verse Slider */}
@@ -159,19 +231,19 @@ export default function Home() {
               
               {/* SLIDE 1: Trilingual Welcome Banner */}
               {slide.type === 'welcome' && (
-                <div className="space-y-4 bg-slate-900/60 p-8 rounded-2xl backdrop-blur-sm border border-slate-700/50">
+                <div className="space-y-4 bg-slate-900/60 p-6 md:p-8 rounded-2xl backdrop-blur-sm border border-slate-700/50">
                   <div className="space-y-2">
-                    <h2 className="text-2xl md:text-3xl font-extrabold text-amber-400">
+                    <h2 className="text-xl md:text-3xl font-extrabold text-amber-400">
                       {t.welcome.deTitle}
                     </h2>
-                    <h3 className="text-xl md:text-2xl font-bold text-slate-100">
+                    <h3 className="text-lg md:text-2xl font-bold text-slate-100">
                       {t.welcome.enTitle}
                     </h3>
-                    <h3 className="text-xl md:text-2xl font-bold text-amber-300">
+                    <h3 className="text-lg md:text-2xl font-bold text-amber-300">
                       {t.welcome.amTitle}
                     </h3>
                   </div>
-                  <p className="text-sm md:text-base text-slate-300 max-w-2xl mx-auto pt-2">
+                  <p className="text-xs md:text-base text-slate-300 max-w-2xl mx-auto pt-2">
                     {t.welcome.subtitle}
                   </p>
                 </div>
@@ -181,17 +253,17 @@ export default function Home() {
               {slide.type === 'verse' && (
                 <div className="space-y-6 max-w-3xl mx-auto px-4">
                   <div className="space-y-3">
-                    <p className="text-lg md:text-2xl font-serif italic text-amber-200">
+                    <p className="text-base md:text-2xl font-serif italic text-amber-200">
                       {lang === 'de' ? slide.deVerse : slide.enVerse}
                     </p>
-                    <p className="text-sm font-bold tracking-widest uppercase text-slate-400">
+                    <p className="text-xs md:text-sm font-bold tracking-widest uppercase text-slate-400">
                       — {lang === 'de' ? slide.deRef : slide.enRef} —
                     </p>
                   </div>
 
                   {/* Amharic Verse */}
                   <div className="pt-4 border-t border-slate-700/60">
-                    <p className="text-base md:text-xl font-serif text-slate-200">
+                    <p className="text-sm md:text-xl font-serif text-slate-200">
                       {slide.amVerse}
                     </p>
                     <p className="text-xs font-semibold text-amber-400 mt-1">
@@ -223,14 +295,14 @@ export default function Home() {
       {/* 3. Location & Worship Schedule Section */}
       <section className="max-w-6xl mx-auto py-16 px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-indigo-950">{t.location.title}</h2>
-          <p className="text-slate-600 mt-2">{t.location.subtitle}</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-indigo-950">{t.location.title}</h2>
+          <p className="text-slate-600 text-sm md:text-base mt-2">{t.location.subtitle}</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 items-stretch">
           
           {/* Service Hours & Address Card */}
-          <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-6">
+          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-6">
             <div className="space-y-4">
               <div className="flex items-start space-x-4">
                 <span className="text-2xl">📍</span>
@@ -276,8 +348,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-slate-950 text-slate-400 py-8 text-center text-xs border-t border-slate-900">
+      {/* 4. YouTube Sermons Section */}
+      <SermonsSection lang={lang} />
+
+      {/* 5. Footer */}
+      <footer className="bg-slate-950 text-slate-400 py-8 px-6 text-center text-xs border-t border-slate-900">
         <p className="font-semibold text-slate-300">Christ’s Evangelical Church in Munich | የክርስቶስ ወንጌላዊት ቤተክርስቲያን</p>
         <p className="mt-1 text-slate-400">Rudolf-Diesel-Straße 9, 85221 Dachau-Ost</p>
         <p className="mt-2 text-slate-500">© {new Date().getFullYear()} CEC Munich. {t.footer.rights}</p>
