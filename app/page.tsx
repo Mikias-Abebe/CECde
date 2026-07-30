@@ -2,15 +2,20 @@
 
 import { useState, useEffect } from 'react';
 
+import SermonsSection from './components/SermonsSection';
+
+
+
 // Language Translations for Interface Elements
 const translations = {
   de: {
     nav: { home: 'Startseite', about: 'Über uns', youth: 'CEC-Jugend', sermons: 'Predigten' },
     location: {
-      title: 'Unser Standplatz in München',
+      title: 'Unser Standort in München / Dachau',
       subtitle: 'Herzlich willkommen zu unseren Gottesdiensten',
       addressTitle: 'Adresse',
-      address: 'München, Deutschland',
+      street: 'Rudolf-Diesel-Straße 9',
+      city: '85221 Dachau-Ost (München)',
       timeTitle: 'Gottesdienstzeiten',
       sundayTime: 'Jeden Sonntag: 10:00 - 12:30 Uhr',
       prayerTime: 'Gebetstreffen: Donnerstag 18:30 Uhr',
@@ -26,10 +31,11 @@ const translations = {
   en: {
     nav: { home: 'Home', about: 'About', youth: 'CEC-Youth', sermons: 'Sermons' },
     location: {
-      title: 'Our Location in Munich',
+      title: 'Our Location in Munich / Dachau',
       subtitle: 'We warmly welcome you to join our worship services',
       addressTitle: 'Address',
-      address: 'Munich, Germany',
+      street: 'Rudolf-Diesel-Straße 9',
+      city: '85221 Dachau-Ost (Munich area)',
       timeTitle: 'Service Times',
       sundayTime: 'Every Sunday: 10:00 AM - 12:30 PM',
       prayerTime: 'Prayer Meeting: Thursday 6:30 PM',
@@ -47,7 +53,7 @@ const translations = {
 // Bible Verse Slides
 const slides = [
   {
-    type: 'welcome', // Slide 1 is the Trilingual Welcome Slide
+    type: 'welcome', // Slide 1: Trilingual Welcome Banner
     bg: 'bg-gradient-to-r from-indigo-950 via-slate-900 to-indigo-900'
   },
   {
@@ -183,7 +189,7 @@ export default function Home() {
                     </p>
                   </div>
 
-                  {/* Amharic Verse displayed alongside */}
+                  {/* Amharic Verse */}
                   <div className="pt-4 border-t border-slate-700/60">
                     <p className="text-base md:text-xl font-serif text-slate-200">
                       {slide.amVerse}
@@ -199,7 +205,7 @@ export default function Home() {
           </div>
         ))}
 
-        {/* Carousel Indicators (Dots) */}
+        {/* Carousel Indicators */}
         <div className="absolute bottom-6 z-20 flex space-x-3">
           {slides.map((_, i) => (
             <button
@@ -231,7 +237,8 @@ export default function Home() {
                 <div>
                   <h3 className="font-bold text-slate-900 text-lg">{t.location.addressTitle}</h3>
                   <p className="text-slate-700 font-semibold">Christ’s Evangelical Church</p>
-                  <p className="text-slate-500 text-sm">München, Deutschland</p>
+                  <p className="text-slate-800 font-medium text-sm mt-1">{t.location.street}</p>
+                  <p className="text-slate-500 text-sm">{t.location.city}</p>
                 </div>
               </div>
 
@@ -252,11 +259,11 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Interactive Munich Map */}
-          <div className="bg-slate-200 rounded-2xl overflow-hidden min-h-[300px] shadow-sm border border-slate-300">
+          {/* Map showing Rudolf-Diesel-Straße 9, 85221 Dachau */}
+          <div className="bg-slate-200 rounded-2xl overflow-hidden min-h-[320px] shadow-sm border border-slate-300">
             <iframe
               className="w-full h-full min-h-[320px]"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d170453.7663233856!2d11.41164627236526!3d48.15488427771746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479e75f9a38c5fd9%3A0x10cb84a7db1987d!2sMunich!5e0!3m2!1sen!2sde!4v1710000000000!5m2!1sen!2sde"
+              src="https://maps.google.com/maps?q=Rudolf-Diesel-Stra%C3%9Fe%209%2C%2085221%20Dachau&t=&z=15&ie=UTF8&iwloc=&output=embed"
               width="100%"
               height="100%"
               style={{ border: 0 }}
@@ -272,7 +279,8 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-slate-950 text-slate-400 py-8 text-center text-xs border-t border-slate-900">
         <p className="font-semibold text-slate-300">Christ’s Evangelical Church in Munich | የክርስቶስ ወንጌላዊት ቤተክርስቲያን</p>
-        <p className="mt-2 text-slate-500">© {new Date().getFullYear()} EECG. {t.footer.rights}</p>
+        <p className="mt-1 text-slate-400">Rudolf-Diesel-Straße 9, 85221 Dachau-Ost</p>
+        <p className="mt-2 text-slate-500">© {new Date().getFullYear()} CEC Munich. {t.footer.rights}</p>
       </footer>
 
     </div>
