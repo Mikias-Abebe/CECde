@@ -51,6 +51,7 @@ const translations = {
 const slides = [
   {
     type: 'welcome', // Slide 1: Trilingual Welcome Banner
+    image: '/Slide1.jpg',
     bg: 'bg-gradient-to-r from-indigo-950 via-slate-900 to-indigo-900'
   },
   {
@@ -219,7 +220,7 @@ export default function Home() {
       </header>
 
       {/* 2. Hero Photo & Verse Slider */}
-      <section id="home" className="relative min-h-[420px] md:min-h-[500px] flex items-center justify-center overflow-hidden text-white">
+      <section id="home" className="relative min-h-[420px] md:min-h-[560px] flex items-center justify-center overflow-hidden text-white">
         {slides.map((slide, index) => (
           <div
             key={index}
@@ -228,6 +229,20 @@ export default function Home() {
             }`}
           >
             <div className="max-w-4xl mx-auto text-center space-y-6">
+              {/* 1. Background Image - Perfect fit with object-cover */}
+      {slide.image && (
+        <img
+          src={slide.image}
+          alt="Church background"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+      )}
+
+      {/* 2. Dark Overlay - Ensures text readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-900/50 z-10" />
+
+      {/* 3. Text & Scripture Content */}
+      <div className="relative z-20 max-w-4xl mx-auto text-center space-y-6"></div>
               
               {/* SLIDE 1: Trilingual Welcome Banner */}
               {slide.type === 'welcome' && (
