@@ -219,17 +219,17 @@ export default function Home() {
         )}
       </header>
 
-      {/* 2. Hero Photo & Verse Slider */}
-      <section id="home" className="relative min-h-[420px] md:min-h-[560px] flex items-center justify-center overflow-hidden text-white">
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out flex items-center justify-center p-6 ${slide.bg} ${
-              index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
-            }`}
-          >
-            <div className="max-w-4xl mx-auto text-center space-y-6">
-              {/* 1. Background Image - Perfect fit with object-cover */}
+      
+{/* 2. Hero Photo & Verse Slider */}
+<section id="home" className="relative h-[480px] md:h-[560px] flex items-center justify-center overflow-hidden text-white">
+  {slides.map((slide, index) => (
+    <div
+      key={index}
+      className={`absolute inset-0 transition-opacity duration-1000 ease-in-out flex items-center justify-center p-6 ${
+        index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+      }`}
+    >
+      {/* 1. Background Image */}
       {slide.image && (
         <img
           src={slide.image}
@@ -238,11 +238,11 @@ export default function Home() {
         />
       )}
 
-      {/* 2. Dark Overlay - Ensures text readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-900/50 z-10" />
+      {/* 2. Light Overlay - Just enough to boost text contrast while keeping photo vivid */}
+      <div className="absolute inset-0 bg-black/35 z-10" />
 
-      {/* 3. Text & Scripture Content */}
-      <div className="relative z-20 max-w-4xl mx-auto text-center space-y-6"></div>
+      {/* 3. Text directly over the image (no container box) */}
+      <div className="relative z-20 max-w-4xl mx-auto text-center space-y-4">
               
               {/* SLIDE 1: Trilingual Welcome Banner */}
               {slide.type === 'welcome' && (
