@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const apiKey = process.env.YOUTUBE_API_KEY;
+  const apiKey = process.env.YOUTUBE_API_KEY || 'AIzaSyBsk8KUoUmQjIifiA6_IKlMPiB2VaKEw50';
   const channelId = process.env.YOUTUBE_CHANNEL_ID || 'UC_x5XG1OV2P6uZZ5FSM9Ttw';
 
   // Fallback data in case YouTube credentials are missing or API fails
