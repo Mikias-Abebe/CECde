@@ -26,25 +26,9 @@ export default function SermonsSection({ lang = 'de' }: { lang?: string }) {
 
   useEffect(() => {
     async function fetchLatestVideos() {
-      const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
-      const channelId = process.env.NEXT_PUBLIC_YOUTUBE_CHANNEL_ID;
-
-      // If missing keys, fall back immediately instead of disappearing
-      if (!apiKey || !channelId) {
-        console.warn('YouTube API Key or Channel ID missing. Using fallback content.');
-        setSermons(FALLBACK_SERMONS);
-        setSelectedSermon(FALLBACK_SERMONS[0]);
-        setLoading(false);
-        return;
-      }
-
-      const playlistId = channelId.replace(/^UC/, 'UU');
-
       try {
-        const res = await fetch(
-  `https://www.googleapis.com/youtube/v3/playlistItems?key=${apiKey}&playlistId=${playlistId}&part=snippet&maxResults=5`,
-  { cache: 'no-store' } // 👈 Forces fresh data on every page reload
-);
+        // Fetch via internal Next.js Server Route
+        const res = await fetch('/api/youtube');
         const data = await res.json();
 
         if (data.items && data.items.length > 0) {
@@ -62,6 +46,7 @@ export default function SermonsSection({ lang = 'de' }: { lang?: string }) {
           setSermons(fetchedVideos);
           setSelectedSermon(fetchedVideos[0]);
         } else {
+          console.warn('No items returned from YouTube API. Using fallback.');
           setSermons(FALLBACK_SERMONS);
           setSelectedSermon(FALLBACK_SERMONS[0]);
         }
