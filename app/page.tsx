@@ -6,7 +6,8 @@ import SermonsSection from './components/SermonsSection';
 // Language Translations for Interface Elements
 const translations = {
   de: {
-    nav: { home: 'Startseite', about: 'Über uns', youth: 'CEC-Jugend', sermons: 'Predigten' },
+    nav: { home: 'Startseite', about: 'Über uns', youth: 'CEC-Jugend', events: 'Veranstaltungen', rediet: 'Rediet'
+     }, 
     location: {
       title: 'Unser Standort in München / Dachau',
       subtitle: 'Herzlich willkommen zu unseren Gottesdiensten',
@@ -14,7 +15,7 @@ const translations = {
       street: 'Rudolf-Diesel-Straße 9',
       city: '85221 Dachau-Ost (München)',
       timeTitle: 'Gottesdienstzeiten',
-      sundayTime: 'Jeden Sonntag: 10:00 - 12:30 Uhr',
+      sundayTime: 'Jeden Sonntag: 11:00 - 13:00 Uhr',
       prayerTime: 'Gebetstreffen: Donnerstag 18:30 Uhr',
     },
     welcome: {
@@ -26,7 +27,7 @@ const translations = {
     footer: { rights: 'Alle Rechte vorbehalten.' }
   },
   en: {
-    nav: { home: 'Home', about: 'About', youth: 'CEC-Youth', sermons: 'Sermons' },
+    nav: { home: 'Home', about: 'About', youth: 'CEC-Youth', events: 'events', rediet: 'Rediet' },
     location: {
       title: 'Our Location in Munich / Dachau',
       subtitle: 'We warmly welcome you to join our worship services',
@@ -119,7 +120,8 @@ export default function Home() {
               <a href="#home" className="hover:text-indigo-600 transition">{t.nav.home}</a>
               <a href="#about" className="hover:text-indigo-600 transition">{t.nav.about}</a>
               <a href="#youth" className="hover:text-indigo-600 transition">{t.nav.youth}</a>
-              <a href="#sermons" className="hover:text-indigo-600 transition">{t.nav.sermons}</a>
+              <a href="#events" className="hover:text-indigo-600 transition">{t.nav.events}</a>
+              <a href="#rediet" className="hover:text-indigo-600 transition">{t.nav.rediet}</a>
             </nav>
 
             {/* Desktop Language Switcher */}
@@ -185,11 +187,18 @@ export default function Home() {
                 {t.nav.youth}
               </a>
               <a 
-                href="#sermons" 
+                href="#events" 
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="hover:text-indigo-600 py-1"
               >
-                {t.nav.sermons}
+                {t.nav.events}
+              </a>
+               <a 
+                href="#rediet" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="hover:text-indigo-600 py-1"
+              >
+                {t.nav.events}
               </a>
             </nav>
 
@@ -235,7 +244,7 @@ export default function Home() {
       )}
 
       {/* 2. Light Overlay - Just enough to boost text contrast while keeping photo vivid */}
-      <div className="absolute inset-0 bg-black/35 z-10" />
+      <div className="absolute inset-0 bg-black/30 z-10" />
 
       {/* 3. Text directly over the image (no container box) */}
       <div className="relative z-20 max-w-4xl mx-auto text-center space-y-4">
