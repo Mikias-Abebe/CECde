@@ -1,140 +1,174 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface VideoItem {
   id: string;
-  snippet: {
-    title: string;
-    description: string;
-    publishedAt: string;
-    resourceId?: { videoId: string };
-    id?: { videoId: string };
-    thumbnails: { medium: { url: string } };
-  };
+  title: string;
+  date: string;
+  youtubeId: string;
 }
 
-export default function SermonsSection({ lang }: { lang: 'de' | 'en' }) {
+// Fallback data in case the YouTube API call fails or is unconfigured
+const FALLBACK_SERMONS: VideoItem[] = [
+  {
+    id: '1',
+    title: 'Sunday Worship Service & Sermon',
+    date: 'Recent Service',
+    youtubeId: 'dQw4w9WgXcQ', // Replace with a default video ID if desired
+  },
+];
+
+export default function SermonsSection({ lang = 'de' }: { lang?: string }) {
   const [sermons, setSermons] = useState<VideoItem[]>([]);
-  const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
-  const [isLive, setIsLive] = useState(false);
+  const [selectedSermon, setSelectedSermon] = useState<VideoItem | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function loadVideos() {
+    async function fetchLatestVideos() {
+      const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
+      const channelId = process.env.NEXT_PUBLIC_YOUTUBE_CHANNEL_ID;
+
+      // If missing keys, fall back immediately instead of disappearing
+      if (!apiKey || !channelId) {
+        console.warn('YouTube API Key or Channel ID missing. Using fallback content.');
+        setSermons(FALLBACK_SERMONS);
+        setSelectedSermon(FALLBACK_SERMONS[0]);
+        setLoading(false);
+        return;
+      }
+
+      const playlistId = channelId.replace(/^UC/, 'UU');
+
       try {
-        const res = await fetch('/api/sermons');
+        const res = await fetch(
+  `https://www.googleapis.com/youtube/v3/playlistItems?key=${apiKey}&playlistId=${playlistId}&part=snippet&maxResults=5`,
+  { cache: 'no-store' } // 👈 Forces fresh data on every page reload
+);
         const data = await res.json();
 
-        if (data.liveStream) {
-          setIsLive(true);
-          setActiveVideoId(data.liveStream.id.videoId);
-        } else if (data.sermons && data.sermons.length > 0) {
-          setActiveVideoId(data.sermons[0].snippet.resourceId?.videoId || null);
-        }
+        if (data.items && data.items.length > 0) {
+          const fetchedVideos: VideoItem[] = data.items.map((item: any) => ({
+            id: item.snippet.resourceId.videoId,
+            title: item.snippet.title,
+            date: new Date(item.snippet.publishedAt).toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+            }),
+            youtubeId: item.snippet.resourceId.videoId,
+          }));
 
-        setSermons(data.sermons || []);
+          setSermons(fetchedVideos);
+          setSelectedSermon(fetchedVideos[0]);
+        } else {
+          setSermons(FALLBACK_SERMONS);
+          setSelectedSermon(FALLBACK_SERMONS[0]);
+        }
       } catch (err) {
         console.error('Failed to load YouTube videos:', err);
+        setSermons(FALLBACK_SERMONS);
+        setSelectedSermon(FALLBACK_SERMONS[0]);
       } finally {
         setLoading(false);
       }
     }
 
-    loadVideos();
+    fetchLatestVideos();
   }, []);
 
+  if (loading) {
+    return (
+      <section className="bg-slate-100 py-16 px-6 text-center text-slate-600 font-semibold">
+        Loading latest sermons...
+      </section>
+    );
+  }
+
+  const activeSermon = selectedSermon || FALLBACK_SERMONS[0];
+  const activeList = sermons.length > 0 ? sermons : FALLBACK_SERMONS;
+
   return (
-    <section id="sermons" className="max-w-6xl mx-auto py-16 px-6">
-      <div className="text-center mb-10">
-        <h2 className="text-3xl font-bold text-indigo-950">
-          {lang === 'de' ? 'Predigten & Livestream' : 'Sermons & Live Stream'}
-        </h2>
-        <p className="text-slate-600 mt-2">
-          {lang === 'de'
-            ? 'Sehen Sie unsere neuesten Gottesdienste direkt hier'
-            : 'Watch our latest services and live streams directly here'}
-        </p>
-      </div>
-
-      {loading ? (
-        <div className="text-center py-12 text-slate-500 font-medium">
-          {lang === 'de' ? 'Videos werden geladen...' : 'Loading videos...'}
-        </div>
-      ) : (
-        <div className="space-y-8">
+    <section className="bg-slate-100 py-16 px-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-12 gap-8 items-start">
           
-          {/* Main Embedded Player */}
-          {activeVideoId && (
-            <div className="bg-slate-900 rounded-2xl overflow-hidden shadow-xl border border-slate-800 max-w-4xl mx-auto">
-              {isLive && (
-                <div className="bg-red-600 text-white text-xs font-bold px-4 py-1.5 flex items-center space-x-2">
-                  <span className="w-2 h-2 bg-white rounded-full animate-ping"></span>
-                  <span>{lang === 'de' ? 'JETZT LIVE' : 'LIVE NOW'}</span>
-                </div>
-              )}
-
-              <div className="aspect-video w-full">
-                <iframe
-                  className="w-full h-full"
-                  src={`https://www.youtube.com/embed/${activeVideoId}?autoplay=0`}
-                  title="Church Video Player"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
+          {/* Main Video Player */}
+          <div className="lg:col-span-7 bg-[#1c2e3d] text-white rounded-2xl overflow-hidden shadow-lg border border-slate-700">
+            <div className="p-4 bg-[#14222e] flex items-center space-x-3 border-b border-slate-700/60">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+              </span>
+              <div>
+                <h3 className="font-bold text-sm text-white">Recent Live Stream / Sermon</h3>
+                <p className="text-xs text-slate-400 line-clamp-1">{activeSermon.title}</p>
               </div>
             </div>
-          )}
 
-          {/* Video Grid / Playlist */}
-          <div>
-            <h3 className="text-xl font-bold text-slate-900 mb-4">
-              {lang === 'de' ? 'Kürzliche Predigten' : 'Recent Sermons'}
-            </h3>
-            
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {sermons.map((item) => {
-                const videoId = item.snippet.resourceId?.videoId;
-                const isSelected = videoId === activeVideoId;
+            <div className="relative aspect-video w-full bg-black">
+              <iframe
+                className="w-full h-full"
+                src={`https://www.youtube.com/embed/${activeSermon.youtubeId}?autoplay=0`}
+                title={activeSermon.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
 
+            <div className="p-4 flex justify-between items-center text-xs text-slate-300">
+              <span className="font-medium">{activeSermon.date}</span>
+              <a
+                href={`https://www.youtube.com/watch?v=${activeSermon.youtubeId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded transition"
+              >
+                Watch on YouTube ↗
+              </a>
+            </div>
+          </div>
+
+          {/* Video List */}
+          <div className="lg:col-span-5 bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden flex flex-col">
+            <div className="bg-[#c8b375] text-slate-950 p-5 border-b border-amber-300">
+              <div className="flex items-center space-x-2">
+                <span className="text-lg">📹</span>
+                <h3 className="font-bold text-lg text-[#1c2e3d]">Recent Sermons</h3>
+              </div>
+              <p className="text-xs text-slate-800 font-medium mt-1">
+                Select any sermon to play it on the left screen.
+              </p>
+            </div>
+
+            <div className="p-4 space-y-3 divide-y divide-slate-100 max-h-[420px] overflow-y-auto">
+              {activeList.map((sermon) => {
+                const isSelected = sermon.id === activeSermon.id;
                 return (
-                  <div
-                    key={item.id}
-                    onClick={() => {
-                      if (videoId) {
-                        setActiveVideoId(videoId);
-                        setIsLive(false);
-                      }
-                    }}
-                    className={`cursor-pointer bg-white rounded-xl overflow-hidden border transition shadow-sm hover:shadow-md ${
-                      isSelected ? 'ring-2 ring-indigo-600 border-indigo-600' : 'border-slate-200'
+                  <button
+                    key={sermon.id}
+                    onClick={() => setSelectedSermon(sermon)}
+                    className={`w-full text-left p-3.5 rounded-xl transition flex items-center justify-between group pt-3 ${
+                      isSelected ? 'bg-slate-100 border border-slate-300 shadow-sm' : 'hover:bg-slate-50'
                     }`}
                   >
-                    <div className="aspect-video relative bg-slate-100">
-                      <img
-                        src={item.snippet.thumbnails?.medium?.url}
-                        alt={item.snippet.title}
-                        className="w-full h-full object-cover"
-                      />
+                    <div className="space-y-1 pr-3">
+                      <div className="flex items-center space-x-2">
+                        {isSelected && <span className="text-red-500 text-xs font-bold">▶ Playing</span>}
+                        <h4 className={`text-sm font-bold line-clamp-1 ${isSelected ? 'text-indigo-950' : 'text-slate-800 group-hover:text-indigo-900'}`}>
+                          {sermon.title}
+                        </h4>
+                      </div>
+                      <p className="text-xs text-slate-500 font-medium">{sermon.date}</p>
                     </div>
-                    <div className="p-4">
-                      <h4 className="font-bold text-slate-900 text-sm line-clamp-2">
-                        {item.snippet.title}
-                      </h4>
-                      <p className="text-xs text-slate-500 mt-2">
-                        {new Date(item.snippet.publishedAt).toLocaleDateString(
-                          lang === 'de' ? 'de-DE' : 'en-US'
-                        )}
-                      </p>
-                    </div>
-                  </div>
+                  </button>
                 );
               })}
             </div>
           </div>
 
         </div>
-      )}
+      </div>
     </section>
   );
 }
