@@ -198,7 +198,7 @@ export default function Home() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="hover:text-indigo-600 py-1"
               >
-                {t.nav.events}
+                {t.nav.rediet}
               </a>
             </nav>
 
