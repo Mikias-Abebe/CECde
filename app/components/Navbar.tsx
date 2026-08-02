@@ -1,8 +1,8 @@
 // src/app/components/Navbar.tsx
 'use client';
 
-import Link from 'next/link';
 import { useState } from 'react';
+import Link from 'next/link';
 
 const translations = {
   de: { home: 'Startseite', about: 'Über uns', youth: 'CEC-Jugend', events: 'Veranstaltungen', rediet: 'Rediet' },
@@ -43,7 +43,7 @@ export default function Navbar() {
             <Link href="/rediet" className="hover:text-amber-400 transition-colors">{nav.rediet}</Link>
           </nav>
 
-          {/* Language Switcher */}
+          {/* Desktop Language Switcher */}
           <div className="flex border border-slate-600 rounded overflow-hidden text-sm font-bold">
             <button
               onClick={() => setLang('de')}
@@ -82,6 +82,22 @@ export default function Navbar() {
             <Link href="/events" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-amber-400">{nav.events}</Link>
             <Link href="/rediet" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-amber-400">{nav.rediet}</Link>
           </nav>
+
+          {/* Mobile Language Switcher */}
+          <div className="flex border border-slate-600 rounded overflow-hidden text-sm font-bold w-fit pt-2">
+            <button
+              onClick={() => setLang('de')}
+              className={`px-3 py-1.5 transition ${lang === 'de' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`}
+            >
+              DE
+            </button>
+            <button
+              onClick={() => setLang('en')}
+              className={`px-3 py-1.5 transition ${lang === 'en' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`}
+            >
+              EN
+            </button>
+          </div>
         </div>
       )}
     </header>

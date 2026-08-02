@@ -1,6 +1,7 @@
 // src/app/layout.tsx
 import './globals.css';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 export default function RootLayout({
   children,
@@ -18,13 +19,8 @@ export default function RootLayout({
         <main className="flex-grow">
           {children}
         </main>
-
-        {/* Persistent Footer across all pages */}
-        <footer className="bg-slate-950 text-slate-400 py-8 px-6 text-center text-xs border-t border-slate-900">
-          <p className="font-semibold text-slate-300">Christ’s Evangelical Church in Munich | የክርስቶስ ወንጌላዊት ቤተክርስቲያን</p>
-          <p className="mt-1 text-slate-400">Rudolf-Diesel-Straße 9, 85221 Dachau-Ost</p>
-          <p className="mt-2 text-slate-500">© {new Date().getFullYear()} CEC Munich. All rights reserved.</p>
-        </footer>
+        <Footer />
+       
 
       </body>
     </html>

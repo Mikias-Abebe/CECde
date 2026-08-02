@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+    import { NextResponse } from 'next/server';
 
 export async function GET() {
   const apiKey = process.env.YOUTUBE_API_KEY || 'AIzaSyBsk8KUoUmQjIifiA6_IKlMPiB2VaKEw50';
