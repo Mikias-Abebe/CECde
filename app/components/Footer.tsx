@@ -19,7 +19,7 @@ export default function Footer() {
             <div className="space-y-3 text-sm text-slate-300">
               <div className="flex items-start space-x-3">
                 <MapPin className="w-4 h-4 text-slate-400 mt-1 shrink-0" />
-                <span>Your Church Address, 80331 Munich, Germany</span>
+                <span>Rudolf-Diesel-Straße 985221 Dachau-Ost (München)</span>
               </div>
               
               <div className="flex items-center space-x-3">
@@ -96,7 +96,7 @@ export default function Footer() {
                 <Instagram className="w-5 h-5" />
               </a>
               <a 
-                href="https://youtube.com" 
+                href="https://www.youtube.com/@christsevangelicalchurchin4519" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="p-1.5 rounded-full text-slate-300 hover:text-white hover:bg-slate-700/50 transition-colors"

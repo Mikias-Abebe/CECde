@@ -16,7 +16,25 @@ const slides = [
     enRef: 'John 3:16',
     amVerse: '“በእርሱ የሚያምን ሁሉ የዘላለም ሕይወት እንዲኖረው እንጂ እንዳይጠፋ እግዚአብሔር አንድያ ልጁን እስኪሰጥ ድረስ ዓለሙን እንዲሁ ወዶአልና።”',
     amRef: 'ዮሐንስ 3:16',
-  }
+  },
+  {
+    type: 'community',
+    image: '/Slide2.jpg', // Replace with your image path
+    enTitle: 'Faith & Fellowship',
+    deTitle: 'Glaube & Gemeinschaft',
+    amTitle: 'እምነት እና ህብረት',
+    enSub: 'Growing together in Christ’s love and grace.',
+    deSub: 'Gemeinsam im Glauben und in der Liebe Christi wachsen.',
+  },
+  {
+    type: 'invitation',
+    image: '/Slide3.jpg', // Replace with your image path
+    enTitle: 'Join Us This Sunday',
+    deTitle: 'Besuchen Sie uns am Sonntag',
+    amTitle: 'እሑድ ከእኛ ጋር ይሁኑ',
+    enSub: 'Sunday Service at 11:00 AM | Dachau-Ost',
+    deSub: 'Gottesdienst jeden Sonntag um 11:00 Uhr',
+  },
 ];
 
 export default function Home() {
@@ -54,7 +72,7 @@ export default function Home() {
             {slide.image && (
               <img
                 src={slide.image}
-                alt="Church background"
+                alt={`Church background slide ${index + 1}`}
                 className="absolute inset-0 w-full h-full object-cover object-center"
               />
             )}
@@ -62,7 +80,7 @@ export default function Home() {
             {/* Dark overlay for text contrast */}
             <div className="absolute inset-0 bg-black/45 z-10" />
 
-            {/* Centered Overlay Text (Styled like the reference site) */}
+            {/* Centered Overlay Content */}
             <div className="relative z-20 max-w-4xl mx-auto text-center space-y-4 px-4 drop-shadow-lg">
               {slide.type === 'welcome' && (
                 <div className="space-y-3">
@@ -70,7 +88,7 @@ export default function Home() {
                     እንኳን ደህና መጡ <span className="text-slate-300">|</span> Welcome <span className="text-slate-300">|</span> Willkommen
                   </h2>
                   <p className="text-base md:text-2xl font-serif text-slate-200 pt-2 tracking-wide">
-                    የክርስቶስ ወንጌላዊት ቤተክርስቲያን በሙኒክ | Christ’s Evangelical Church in Munich
+                    የክርስቶስ ወንጌላዊት ቤተክርስቲያን በሙኒክ | Christ&apos;s Evangelical Church in Munich
                   </p>
                 </div>
               )}
@@ -85,6 +103,34 @@ export default function Home() {
                   </p>
                   <p className="text-xs md:text-sm font-semibold tracking-widest uppercase text-slate-400 pt-2">
                     — {slide.enRef} / {slide.amRef} —
+                  </p>
+                </div>
+              )}
+
+              {slide.type === 'community' && (
+                <div className="space-y-3">
+                  <h2 className="text-3xl md:text-5xl font-serif tracking-wide text-white font-medium">
+                    {slide.amTitle} <span className="text-slate-300">|</span> {slide.enTitle}
+                  </h2>
+                  <p className="text-base md:text-xl font-serif text-amber-200 pt-2">
+                    {slide.enSub}
+                  </p>
+                  <p className="text-sm md:text-base text-slate-300 italic">
+                    {slide.deSub}
+                  </p>
+                </div>
+              )}
+
+              {slide.type === 'invitation' && (
+                <div className="space-y-3">
+                  <h2 className="text-3xl md:text-5xl font-serif tracking-wide text-white font-medium">
+                    {slide.enTitle}
+                  </h2>
+                  <p className="text-lg md:text-2xl font-serif text-amber-200">
+                    {slide.amTitle}
+                  </p>
+                  <p className="text-sm md:text-lg text-slate-200 font-medium pt-2">
+                    {slide.enSub}
                   </p>
                 </div>
               )}
@@ -108,6 +154,20 @@ export default function Home() {
           ›
         </button>
 
+        {/* Slide Indicator Dots */}
+        <div className="absolute bottom-4 z-30 flex space-x-2">
+          {slides.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentSlide(idx)}
+              className={`w-3 h-3 rounded-full transition-all ${
+                idx === currentSlide ? 'bg-amber-400 w-6' : 'bg-white/50 hover:bg-white'
+              }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+
       </section>
 
       {/* YouTube Sermons Section */}
@@ -127,7 +187,7 @@ export default function Home() {
                 <span className="text-2xl">📍</span>
                 <div>
                   <h3 className="font-bold text-slate-900 text-lg">Adresse</h3>
-                  <p className="text-slate-700 font-semibold">Christ’s Evangelical Church</p>
+                  <p className="text-slate-700 font-semibold">Christ&apos;s Evangelical Church</p>
                   <p className="text-slate-800 font-medium text-sm mt-1">Rudolf-Diesel-Straße 9</p>
                   <p className="text-slate-500 text-sm">85221 Dachau-Ost (München)</p>
                 </div>
