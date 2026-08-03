@@ -40,7 +40,16 @@ export default function Navbar() {
             <Link href="/about" className="hover:text-amber-400 transition-colors">{nav.about}</Link>
             <Link href="/youth" className="hover:text-amber-400 transition-colors">{nav.youth}</Link>
             <Link href="/events" className="hover:text-amber-400 transition-colors">{nav.events}</Link>
-            <Link href="/rediet" className="hover:text-amber-400 transition-colors">{nav.rediet}</Link>
+            
+            {/* Direct External Link for Rediet */}
+            <a 
+              href="https://rediet-rhh.org/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hover:text-amber-400 transition-colors"
+            >
+              {nav.rediet}
+            </a>
           </nav>
 
           {/* Desktop Language Switcher */}
@@ -80,7 +89,17 @@ export default function Navbar() {
             <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-amber-400">{nav.about}</Link>
             <Link href="/youth" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-amber-400">{nav.youth}</Link>
             <Link href="/events" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-amber-400">{nav.events}</Link>
-            <Link href="/rediet" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-amber-400">{nav.rediet}</Link>
+            
+            {/* Direct External Link for Rediet (Mobile) */}
+            <a 
+              href="https://rediet-rhh.org/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              onClick={() => setIsMobileMenuOpen(false)} 
+              className="hover:text-amber-400"
+            >
+              {nav.rediet}
+            </a>
           </nav>
 
           {/* Mobile Language Switcher */}
