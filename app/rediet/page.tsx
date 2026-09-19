@@ -140,8 +140,8 @@ const translations = {
 };
 
 const execTeam = [
-  { name: 'Dr. Tewodros A. Beyene', role: 'Executive Director', image: '/images/rediet/tewodros.jpg' },
-  { name: 'Wuttet Assaminew', role: 'Programs Manager', image: '/images/rediet/wuttet.jpg' },
+  { name: 'Dr. Tewodros A. Beyene', role: 'Executive Director', image: '/images/rediet/tewodros-beyene.png' },
+  { name: 'Wuttet Assaminew', role: 'Programs Manager', image: '/images/rediet/wuttet-assaminew.png' },
   { name: 'Dr. Edengenetch M. Dejene', role: 'Fund Raising Manager', image: '/images/rediet/edengenetch.jpg' },
   { name: 'Emebet Markos', role: 'General Manager', image: '/images/rediet/emebet.jpg' },
 ];
