@@ -142,18 +142,18 @@ const translations = {
 const execTeam = [
   { name: 'Dr. Tewodros A. Beyene', role: 'Executive Director', image: '/images/rediet/tewodros-beyene.png' },
   { name: 'Wuttet Assaminew', role: 'Programs Manager', image: '/images/rediet/wuttet-assaminew.png' },
-  { name: 'Dr. Edengenetch M. Dejene', role: 'Fund Raising Manager', image: '/images/rediet/edengenetch.jpg' },
-  { name: 'Emebet Markos', role: 'General Manager', image: '/images/rediet/emebet.jpg' },
+  { name: 'Dr. Edengenetch M. Dejene', role: 'Fund Raising Manager', image: '/images/rediet/edengenetch-dejene.png' },
+  { name: 'Emebet Markos', role: 'General Manager', image: '/images/rediet/emebet-markos.png' },
 ];
 
 const boardMembers = [
-  { name: 'Worku Alemu', role: 'Chairperson of the Board', image: '/images/rediet/worku.jpg' },
-  { name: 'Behailu Getahun', role: 'Secretary of the Board', image: '/images/rediet/behailu.jpg' },
-  { name: 'Atakilt Sibhatu', role: 'Board Member', image: '/images/rediet/atakilt.jpg' },
-  { name: 'Elizabeth Wube', role: 'Board Member', image: '/images/rediet/elizabeth.jpg' },
-  { name: 'Romi Amlak', role: 'Board Member', image: '/images/rediet/romi.jpg' },
-  { name: 'Yeshi Bereda', role: 'Board Member', image: '/images/rediet/yeshi.jpg' },
-  { name: 'Lydia Woldemariam', role: 'Board Member', image: '/images/rediet/lydia.jpg' },
+  { name: 'Worku Alemu', role: 'Chairperson of the Board', image: '/images/rediet/worku-alemu.png' },
+  { name: 'Behailu Getahun', role: 'Secretary of the Board', image: '/images/rediet/behailu-getahun.png' },
+  { name: 'Atakilt Sibhatu', role: 'Board Member', image: '/images/rediet/atakilt-sibhatu.png' },
+  { name: 'Elizabeth Wube', role: 'Board Member', image: '/images/rediet/elizabeth-wube.png' },
+  { name: 'Romi Amlak', role: 'Board Member', image: '/images/rediet/romi-amlak.png' },
+  { name: 'Yeshi Bereda', role: 'Board Member', image: '/images/rediet/yeshi-bereda.png' },
+  { name: 'Lydia Woldemariam', role: 'Board Member', image: '/images/rediet/lydia-woldemariam.png' },
 ];
 
 export default function RedietPage() {
