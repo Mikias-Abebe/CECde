@@ -1,7 +1,7 @@
-// src/app/layout.tsx
-import './globals.css';
+import { Analytics } from '@vercel/analytics/react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import './globals.css';
 
 export default function RootLayout({
   children,
@@ -9,19 +9,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="de">
-      <body className="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col justify-between">
-        
-        {/* Persistent Navbar across all pages */}
+    <html lang="en">
+      <body className="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
         <Navbar />
-
-        {/* Unique Page Content */}
-        <main className="flex-grow">
-          {children}
-        </main>
+        <main className="flex-grow">{children}</main>
         <Footer />
-       
 
+        {/* Vercel Analytics Component */}
+        <Analytics />
       </body>
     </html>
   );
