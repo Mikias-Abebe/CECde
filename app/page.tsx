@@ -6,10 +6,11 @@ import SermonsSection from './components/SermonsSection';
 const slides = [
   {
     type: 'welcome',
-    image: '/Slide1.jpg',
+    image: '/Slide1.png',
   },
   {
     type: 'verse',
+    image: '/Slide4.png',
     deVerse: '„Denn so sehr hat Gott die Welt geliebt, dass er seinen eingeborenen Sohn gab...“',
     deRef: 'Johannes 3:16',
     enVerse: '“For God so loved the world that he gave his one and only Son...”',
@@ -19,7 +20,7 @@ const slides = [
   },
   {
     type: 'community',
-    image: '/Slide2.jpg', // Replace with your image path
+    image: '/Slide2.png', // Replace with your image path
     enTitle: 'Faith & Fellowship',
     deTitle: 'Glaube & Gemeinschaft',
     amTitle: 'እምነት እና ህብረት',
@@ -28,7 +29,7 @@ const slides = [
   },
   {
     type: 'invitation',
-    image: '/Slide3.jpg', // Replace with your image path
+    image: '/Slide3.png', // Replace with your image path
     enTitle: 'Join Us This Sunday',
     deTitle: 'Besuchen Sie uns am Sonntag',
     amTitle: 'እሑድ ከእኛ ጋር ይሁኑ',
