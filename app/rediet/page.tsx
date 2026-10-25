@@ -1,8 +1,8 @@
+// src/app/rediet/page.tsx
 'use client';
 
 import { useState } from 'react';
-
-type Lang = 'de' | 'en' | 'am';
+import { useLanguage } from '../context/LanguageContext';
 
 const translations = {
   de: {
@@ -140,26 +140,26 @@ const translations = {
 };
 
 const execTeam = [
-  { name: 'Dr. Tewodros A. Beyene', role: 'Executive Director', image: '/images/rediet/tewodros-beyene.png' },
-  { name: 'Wuttet Assaminew', role: 'Programs Manager', image: '/images/rediet/wuttet-assaminew.png' },
-  { name: 'Dr. Edengenetch M. Dejene', role: 'Fund Raising Manager', image: '/images/rediet/edengenetch-dejene.png' },
-  { name: 'Emebet Markos', role: 'General Manager', image: '/images/rediet/emebet-markos.png' },
+  { name: 'Dr. Tewodros A. Beyene', role: 'Executive Director', photo: '/images/rediet/tewodros-beyene.jpg' },
+  { name: 'Wuttet Assaminew', role: 'Programs Manager', photo: '/images/rediet/wuttet-assaminew.jpg' },
+  { name: 'Dr. Edengenetch M. Dejene', role: 'Fund Raising Manager', photo: '/images/rediet/edengenetch-dejene.jpg' },
+  { name: 'Emebet Markos', role: 'General Manager', photo: '/images/rediet/emebet-markos.jpg' },
 ];
 
 const boardMembers = [
-  { name: 'Worku Alemu', role: 'Chairperson of the Board', image: '/images/rediet/worku-alemu.png' },
-  { name: 'Behailu Getahun', role: 'Secretary of the Board', image: '/images/rediet/behailu-getahun.png' },
-  { name: 'Atakilt Sibhatu', role: 'Board Member', image: '/images/rediet/atakilt-sibhatu.png' },
-  { name: 'Elizabeth Wube', role: 'Board Member', image: '/images/rediet/elizabeth-wube.png' },
-  { name: 'Romi Amlak', role: 'Board Member', image: '/images/rediet/romi-amlak.png' },
-  { name: 'Yeshi Bereda', role: 'Board Member', image: '/images/rediet/yeshi-bereda.png' },
-  { name: 'Lydia Woldemariam', role: 'Board Member', image: '/images/rediet/lydia-woldemariam.png' },
+  { name: 'Worku Alemu', role: 'Chairperson of the Board', photo: '/images/rediet/worku-alemu.jpg' },
+  { name: 'Behailu Getahun', role: 'Secretary of the Board', photo: '/images/rediet/behailu-getahun.jpg' },
+  { name: 'Atakilt Sibhatu', role: 'Board Member', photo: '/images/rediet/atakilt-sibhatu.jpg' },
+  { name: 'Elizabeth Wube', role: 'Board Member', photo: '/images/rediet/elizabeth-wube.jpg' },
+  { name: 'Romi Amlak', role: 'Board Member', photo: '/images/rediet/romi-amlak.jpg' },
+  { name: 'Yeshi Bereda', role: 'Board Member', photo: '/images/rediet/yeshi-bereda.jpg' },
+  { name: 'Lydia Woldemariam', role: 'Board Member', photo: '/images/rediet/lydia-woldemariam.jpg' },
 ];
 
 export default function RedietPage() {
-  const [lang, setLang] = useState<Lang>('de');
+  const { lang } = useLanguage();
   const [copied, setCopied] = useState(false);
-  const t = translations[lang];
+  const t = translations[lang] || translations.de;
 
   const handleCopyIban = () => {
     navigator.clipboard.writeText('DE31760100850116232856');
@@ -170,60 +170,33 @@ export default function RedietPage() {
   return (
     <div className="bg-slate-900 text-slate-100 min-h-screen">
       
-      {/* Header / Hero Section with Background Image */}
+      {/* Hero Section with Background Image */}
       <section 
-        className="relative pt-20 pb-16 px-6 bg-cover bg-center bg-no-repeat border-b border-slate-800 overflow-hidden"
+        className="relative pt-24 pb-16 px-6 bg-cover bg-center bg-no-repeat border-b border-slate-800 overflow-hidden"
         style={{
-          // Change this URL path to match where you save your background image
           backgroundImage: "url('/images/rediet/hero-bg.jpg')",
         }}
       >
-        {/* Dark Overlay to guarantee text readability over the image */}
         <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-[2px]" />
 
-        {/* Hero Content */}
-        <div className="relative z-10 max-w-6xl mx-auto">
-          
-          {/* Language Switcher (Positioned Top Right) */}
-          <div className="flex justify-end mb-6">
-            <div className="inline-flex bg-slate-900/90 p-1 rounded-lg border border-slate-700/80 space-x-1 shadow-lg backdrop-blur-md">
-              {(['de', 'en', 'am'] as Lang[]).map((l) => (
-                <button
-                  key={l}
-                  onClick={() => setLang(l)}
-                  className={`px-3 py-1.5 rounded-md font-bold text-xs tracking-wider uppercase transition-all ${
-                    lang === l
-                      ? 'bg-amber-500 text-slate-950 shadow-md'
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  {l === 'am' ? 'አማርኛ' : l}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Title Container with Icon Logo */}
-          <div className="text-center space-y-4">
-            <div className="flex flex-col md:flex-row items-center justify-center gap-4">
-              
-              {/* Logo Icon */}
-              <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 shadow-lg shadow-amber-500/20 flex-shrink-0">
-                <svg className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.684a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-              </div>
-
-              <h1 className="text-3xl md:text-5xl font-serif font-bold text-white tracking-wide drop-shadow-md">
-                {t.heroTitle}
-              </h1>
+        <div className="relative z-10 max-w-6xl mx-auto text-center space-y-4">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+            
+            {/* Logo Icon */}
+            <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 shadow-lg shadow-amber-500/20 flex-shrink-0">
+              <svg className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.684a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
             </div>
 
-            <p className="text-slate-200 max-w-2xl mx-auto text-sm md:text-base leading-relaxed pt-2 drop-shadow">
-              {t.heroSub}
-            </p>
+            <h1 className="text-3xl md:text-5xl font-serif font-bold text-white tracking-wide drop-shadow-md">
+              {t.heroTitle}
+            </h1>
           </div>
 
+          <p className="text-slate-200 max-w-2xl mx-auto text-sm md:text-base leading-relaxed pt-2 drop-shadow">
+            {t.heroSub}
+          </p>
         </div>
       </section>
 
@@ -240,7 +213,7 @@ export default function RedietPage() {
         </div>
       </section>
 
-      {/* 2. TEAM */}
+      {/* 2. TEAM SECTION */}
       <section className="py-20 px-6 bg-slate-950/60 border-y border-slate-800">
         <div className="max-w-6xl mx-auto space-y-16">
           <div className="text-center">
@@ -248,48 +221,60 @@ export default function RedietPage() {
             <h2 className="text-2xl md:text-4xl font-serif font-bold text-white mt-1">{t.teamTitle}</h2>
           </div>
 
-          {/* Executive Members */}
+          {/* Executive Members Grid */}
           <div>
             <h3 className="text-lg font-mono text-amber-400/90 uppercase tracking-wider mb-8 text-center">{t.executives}</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {execTeam.map((m, i) => (
-                <div key={i} className="bg-slate-800/60 border border-slate-700/80 p-6 rounded-xl text-center flex flex-col items-center hover:border-amber-500/40 transition-all">
-                  <div className="w-28 h-28 rounded-full bg-slate-700 border-2 border-amber-400/40 mb-4 overflow-hidden flex items-center justify-center text-slate-400 font-bold">
+              {execTeam.map((member, i) => (
+                <div 
+                  key={i} 
+                  className="bg-slate-800/60 border border-slate-700/80 p-6 rounded-2xl text-center flex flex-col items-center hover:border-amber-500/50 transition-all shadow-lg hover:shadow-amber-500/10 group"
+                >
+                  <div className="relative w-32 h-32 rounded-full border-2 border-amber-400/50 mb-4 overflow-hidden flex items-center justify-center bg-slate-800 shrink-0 group-hover:border-amber-400 transition-all">
                     <img
-                      src={m.image}
-                      alt={m.name}
-                      className="w-full h-full object-cover"
+                      src={member.photo}
+                      alt={member.name}
+                      className="w-full h-full object-cover object-center relative z-10"
                       onError={(e) => {
                         (e.target as HTMLElement).style.display = 'none';
                       }}
                     />
-                    <span>{m.name.charAt(0)}</span>
+                    <span className="absolute z-0 text-3xl font-serif text-slate-500">
+                      {member.name.charAt(0)}
+                    </span>
                   </div>
-                  <h4 className="font-bold text-white text-base">{m.name}</h4>
-                  <p className="text-xs text-amber-400 mt-1">{m.role}</p>
+
+                  <h4 className="font-bold text-white text-base group-hover:text-amber-300 transition-colors">{member.name}</h4>
+                  <p className="text-xs text-amber-400 mt-1 font-medium">{member.role}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Board of Trustees */}
+          {/* Board of Trustees Grid */}
           <div>
             <h3 className="text-lg font-mono text-amber-400/90 uppercase tracking-wider mb-8 text-center">{t.board}</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {boardMembers.map((bm, i) => (
-                <div key={i} className="bg-slate-800/40 border border-slate-800 p-6 rounded-xl text-center flex flex-col items-center hover:border-slate-700 transition-all">
-                  <div className="w-24 h-24 rounded-full bg-slate-700 border-2 border-slate-600 mb-4 overflow-hidden flex items-center justify-center text-slate-400 font-bold">
+                <div 
+                  key={i} 
+                  className="bg-slate-800/40 border border-slate-800 p-6 rounded-2xl text-center flex flex-col items-center hover:border-slate-700 transition-all shadow-md group"
+                >
+                  <div className="relative w-28 h-28 rounded-full border-2 border-slate-600 mb-4 overflow-hidden flex items-center justify-center bg-slate-800 shrink-0 group-hover:border-amber-400/60 transition-all">
                     <img
-                      src={bm.image}
+                      src={bm.photo}
                       alt={bm.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-center relative z-10"
                       onError={(e) => {
                         (e.target as HTMLElement).style.display = 'none';
                       }}
                     />
-                    <span>{bm.name.charAt(0)}</span>
+                    <span className="absolute z-0 text-2xl font-serif text-slate-500">
+                      {bm.name.charAt(0)}
+                    </span>
                   </div>
-                  <h4 className="font-semibold text-slate-200 text-base">{bm.name}</h4>
+
+                  <h4 className="font-semibold text-slate-200 text-base group-hover:text-white transition-colors">{bm.name}</h4>
                   <p className="text-xs text-slate-400 mt-1">{bm.role}</p>
                 </div>
               ))}
