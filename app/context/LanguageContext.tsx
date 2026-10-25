@@ -1,4 +1,3 @@
-// src/app/context/LanguageContext.tsx
 'use client';
 
 import React, { createContext, useContext, useState } from 'react';
@@ -15,7 +14,7 @@ const LanguageContext = createContext<LanguageContextType>({
   setLang: () => {},
 });
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
+export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
   const [lang, setLang] = useState<Language>('de');
 
   return (
@@ -23,6 +22,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       {children}
     </LanguageContext.Provider>
   );
-}
+};
 
 export const useLanguage = () => useContext(LanguageContext);

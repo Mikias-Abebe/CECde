@@ -2,6 +2,34 @@
 
 import { useState, useEffect } from 'react';
 import SermonsSection from './components/SermonsSection';
+import { useLanguage } from './context/LanguageContext';
+
+const translations = {
+  de: {
+    locationTitle: 'Unser Standort in München / Dachau',
+    locationSub: 'Herzlich willkommen zu unseren Gottesdiensten',
+    addressHeader: 'Adresse',
+    serviceHeader: 'Gottesdienstzeiten',
+    sundayService: 'Jeden Sonntag: 11:00 - 13:00 Uhr',
+    prayerMeeting: 'Gebetstreffen: Donnerstag 18:30 Uhr',
+  },
+  en: {
+    locationTitle: 'Our Location in Munich / Dachau',
+    locationSub: 'Welcome to our services',
+    addressHeader: 'Address',
+    serviceHeader: 'Service Times',
+    sundayService: 'Every Sunday: 11:00 AM - 1:00 PM',
+    prayerMeeting: 'Prayer Meeting: Thursday 6:30 PM',
+  },
+  am: {
+    locationTitle: 'አድራሻችን በሙኒክ / ዳካው',
+    locationSub: 'ወደ አምልኮ ፕሮግራሞቻችን በደህና መጡ',
+    addressHeader: 'አድራሻ',
+    serviceHeader: 'የአምልኮ ጊዜያት',
+    sundayService: 'እሁድ ሁሉ: ከጠዋቱ 11:00 - 1:00 ሰዓት',
+    prayerMeeting: 'የጸሎት ጊዜ: ሐሙስ 18:30 (ከቀኑ 12:30)',
+  },
+};
 
 const slides = [
   {
@@ -13,33 +41,39 @@ const slides = [
     image: '/Slide4.png',
     deVerse: '„Denn so sehr hat Gott die Welt geliebt, dass er seinen eingeborenen Sohn gab...“',
     deRef: 'Johannes 3:16',
-    enVerse: '“For God so loved the world that he gave his one and only Son...”',
+    enVerse: '"For God so loved the world that he gave his one and only Son..."',
     enRef: 'John 3:16',
-    amVerse: '“በእርሱ የሚያምን ሁሉ የዘላለም ሕይወት እንዲኖረው እንጂ እንዳይጠፋ እግዚአብሔር አንድያ ልጁን እስኪሰጥ ድረስ ዓለሙን እንዲሁ ወዶአልና።”',
+    amVerse: '«በእርሱ የሚያምን ሁሉ የዘላለም ሕይወት እንዲኖረው እንጂ እንዲጠፋ እግዚአብሔር አንድያ ልጁን እስኪሰጥ ድረስ ዓለሙን እንዲሁ ወዶአልና»',
     amRef: 'ዮሐንስ 3:16',
   },
   {
     type: 'community',
-    image: '/Slide2.png', // Replace with your image path
-    enTitle: 'Faith & Fellowship',
+    image: '/Slide2.png',
     deTitle: 'Glaube & Gemeinschaft',
+    enTitle: 'Faith & Fellowship',
     amTitle: 'እምነት እና ህብረት',
-    enSub: 'Growing together in Christ’s love and grace.',
     deSub: 'Gemeinsam im Glauben und in der Liebe Christi wachsen.',
+    enSub: "Growing together in Christ's love and grace.",
+    amSub: 'በክርስቶስ ፍቅርና ጸጋ አብረን ማደግ።',
   },
   {
     type: 'invitation',
-    image: '/Slide3.png', // Replace with your image path
-    enTitle: 'Join Us This Sunday',
+    image: '/Slide3.png',
     deTitle: 'Besuchen Sie uns am Sonntag',
-    amTitle: 'እሑድ ከእኛ ጋር ይሁኑ',
+    enTitle: 'Join Us This Sunday',
+    amTitle: 'እሁድ ከእኛ ጋር ይሁኑ',
+    deSub: 'Gottesdienst jeden Sonntag um 11:00 Uhr | Dachau-Ost',
     enSub: 'Sunday Service at 11:00 AM | Dachau-Ost',
-    deSub: 'Gottesdienst jeden Sonntag um 11:00 Uhr',
+    amSub: 'የእሁድ አምልኮ ከጠዋቱ 11:00 ሰዓት | ዳካው-ኦስት',
   },
 ];
 
 export default function Home() {
+  const { lang } = useLanguage();
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  const currentLang = (lang ? String(lang).toLowerCase() : 'de') as 'de' | 'en' | 'am';
+  const t = translations[currentLang] || translations.de;
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
@@ -58,11 +92,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
-
-      {/* Hero Section */}
+      
+      {/* Hero Carousel Section */}
       <section className="relative h-[520px] md:h-[600px] flex items-center justify-center overflow-hidden text-white bg-black">
         
-        {/* Background Image Carousel */}
+        {/* Carousel Slides */}
         {slides.map((slide, index) => (
           <div
             key={index}
@@ -78,91 +112,132 @@ export default function Home() {
               />
             )}
 
-            {/* Dark overlay for text contrast */}
-            <div className="absolute inset-0 bg-black/45 z-10" />
+            {/* Dark contrast overlay */}
+            <div className="absolute inset-0 bg-black/55 z-10" />
 
-            {/* Centered Overlay Content */}
+            {/* Overlay Text Content */}
             <div className="relative z-20 max-w-4xl mx-auto text-center space-y-4 px-4 drop-shadow-lg">
+              
+              {/* Slide 1: Welcome Header */}
               {slide.type === 'welcome' && (
-                <div className="space-y-3">
-                  <h2 className="text-3xl md:text-5xl font-serif tracking-wide text-white font-medium">
-                    እንኳን ደህና መጡ <span className="text-slate-300">|</span> Welcome <span className="text-slate-300">|</span> Willkommen
+                <div className="flex flex-col items-center justify-center text-center space-y-3 max-w-4xl mx-auto px-4 drop-shadow-md">
+                  <h2 className="text-2xl sm:text-4xl md:text-5xl font-light tracking-wide text-white flex items-center justify-center flex-wrap gap-x-3 gap-y-1">
+                    <span>
+                      {currentLang === 'de'
+                        ? 'Willkommen'
+                        : currentLang === 'am'
+                        ? 'እንኳን ደህና መጡ'
+                        : 'Welcome'}
+                    </span>
+                    <span className="text-slate-300 font-extralight mx-1">|</span>
+                    <span>
+                      {currentLang === 'am' ? 'ወደ ቤተክርስቲያናችን' : "Christ's Evangelical Church"}
+                    </span>
                   </h2>
-                  <p className="text-base md:text-2xl font-serif text-slate-200 pt-2 tracking-wide">
-                    የክርስቶስ ወንጌላዊት ቤተክርስቲያን በሙኒክ | Christ&apos;s Evangelical Church in Munich
+
+                  <p className="text-sm sm:text-lg md:text-xl font-light text-slate-200 tracking-wider flex items-center justify-center space-x-2 pt-1">
+                    <span className="text-slate-300 font-extralight">|</span>
+                    <span>
+                      {currentLang === 'de'
+                        ? 'Freie evangelische Christus Gemeinde in München'
+                        : currentLang === 'am'
+                        ? 'የክርስቶስ ወንጌላዊት ቤተክርስቲያን በሙኒክ'
+                        : 'Christ’s Evangelical Church in Munich'}
+                    </span>
                   </p>
                 </div>
               )}
 
+              {/* Slide 2: Bible Verse */}
               {slide.type === 'verse' && (
                 <div className="space-y-4 max-w-3xl mx-auto">
                   <p className="text-xl md:text-3xl font-serif italic text-amber-200 leading-relaxed">
-                    {slide.enVerse}
+                    {currentLang === 'de'
+                      ? slide.deVerse
+                      : currentLang === 'am'
+                      ? slide.amVerse
+                      : slide.enVerse}
                   </p>
-                  <p className="text-sm md:text-lg font-serif text-slate-300">
-                    {slide.amVerse}
-                  </p>
-                  <p className="text-xs md:text-sm font-semibold tracking-widest uppercase text-slate-400 pt-2">
-                    — {slide.enRef} / {slide.amRef} —
+                  <p className="text-xs md:text-sm font-semibold tracking-widest uppercase text-slate-300 pt-2">
+                    —{' '}
+                    {currentLang === 'de'
+                      ? slide.deRef
+                      : currentLang === 'am'
+                      ? slide.amRef
+                      : slide.enRef}{' '}
+                    —
                   </p>
                 </div>
               )}
 
+              {/* Slide 3: Community */}
               {slide.type === 'community' && (
                 <div className="space-y-3">
                   <h2 className="text-3xl md:text-5xl font-serif tracking-wide text-white font-medium">
-                    {slide.amTitle} <span className="text-slate-300">|</span> {slide.enTitle}
+                    {currentLang === 'de'
+                      ? slide.deTitle
+                      : currentLang === 'am'
+                      ? slide.amTitle
+                      : slide.enTitle}
                   </h2>
                   <p className="text-base md:text-xl font-serif text-amber-200 pt-2">
-                    {slide.enSub}
-                  </p>
-                  <p className="text-sm md:text-base text-slate-300 italic">
-                    {slide.deSub}
+                    {currentLang === 'de'
+                      ? slide.deSub
+                      : currentLang === 'am'
+                      ? slide.amSub
+                      : slide.enSub}
                   </p>
                 </div>
               )}
 
+              {/* Slide 4: Service Invitation */}
               {slide.type === 'invitation' && (
                 <div className="space-y-3">
                   <h2 className="text-3xl md:text-5xl font-serif tracking-wide text-white font-medium">
-                    {slide.enTitle}
+                    {currentLang === 'de'
+                      ? slide.deTitle
+                      : currentLang === 'am'
+                      ? slide.amTitle
+                      : slide.enTitle}
                   </h2>
-                  <p className="text-lg md:text-2xl font-serif text-amber-200">
-                    {slide.amTitle}
-                  </p>
                   <p className="text-sm md:text-lg text-slate-200 font-medium pt-2">
-                    {slide.enSub}
+                    {currentLang === 'de'
+                      ? slide.deSub
+                      : currentLang === 'am'
+                      ? slide.amSub
+                      : slide.enSub}
                   </p>
                 </div>
               )}
+
             </div>
           </div>
         ))}
 
-        {/* Left / Right Carousel Arrow Buttons */}
+        {/* Carousel Arrow Controls */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 z-30 w-10 h-10 rounded-full bg-black/30 hover:bg-black/60 border border-white/20 flex items-center justify-center text-white transition-all focus:outline-none"
+          className="absolute left-4 z-30 w-10 h-10 rounded-full bg-black/30 hover:bg-black/60 border border-white/20 flex items-center justify-center text-white transition-all"
           aria-label="Previous Slide"
         >
           ‹
         </button>
         <button
           onClick={nextSlide}
-          className="absolute right-4 z-30 w-10 h-10 rounded-full bg-black/30 hover:bg-black/60 border border-white/20 flex items-center justify-center text-white transition-all focus:outline-none"
+          className="absolute right-4 z-30 w-10 h-10 rounded-full bg-black/30 hover:bg-black/60 border border-white/20 flex items-center justify-center text-white transition-all"
           aria-label="Next Slide"
         >
           ›
         </button>
 
-        {/* Slide Indicator Dots */}
+        {/* Indicator Dots */}
         <div className="absolute bottom-4 z-30 flex space-x-2">
           {slides.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentSlide(idx)}
-              className={`w-3 h-3 rounded-full transition-all ${
-                idx === currentSlide ? 'bg-amber-400 w-6' : 'bg-white/50 hover:bg-white'
+              className={`h-3 rounded-full transition-all ${
+                idx === currentSlide ? 'bg-amber-400 w-6' : 'bg-white/50 w-3 hover:bg-white'
               }`}
               aria-label={`Go to slide ${idx + 1}`}
             />
@@ -171,26 +246,31 @@ export default function Home() {
 
       </section>
 
-      {/* YouTube Sermons Section */}
-      <SermonsSection lang="de" />
+      {/* Dynamic YouTube Sermons Component */}
+      <SermonsSection lang={currentLang} />
 
-      {/* Location & Services Section */}
+      {/* Dynamic Location & Services Section */}
       <section className="max-w-6xl mx-auto py-16 px-6">
         <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900">Unser Standort in München / Dachau</h2>
-          <p className="text-slate-600 text-sm md:text-base mt-2">Herzlich willkommen zu unseren Gottesdiensten</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+            {t.locationTitle}
+          </h2>
+          <p className="text-slate-600 text-sm md:text-base mt-2">
+            {t.locationSub}
+          </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 items-stretch">
+          
+          {/* Address & Service Times */}
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-6">
             <div className="space-y-4">
               <div className="flex items-start space-x-4">
                 <span className="text-2xl">📍</span>
                 <div>
-                  <h3 className="font-bold text-slate-900 text-lg">Adresse</h3>
-                  <p className="text-slate-700 font-semibold">Christ&apos;s Evangelical Church</p>
-                  <p className="text-slate-800 font-medium text-sm mt-1">Rudolf-Diesel-Straße 9</p>
-                  <p className="text-slate-500 text-sm">85221 Dachau-Ost (München)</p>
+                  <h3 className="font-bold text-slate-900 text-lg">{t.addressHeader}</h3>
+                  <p className="text-slate-700 text-sm mt-1">Rudolf-Diesel-Straße 9</p>
+                  <p className="text-slate-700 text-sm">85221 Dachau, Germany</p>
                 </div>
               </div>
 
@@ -199,14 +279,19 @@ export default function Home() {
               <div className="flex items-start space-x-4">
                 <span className="text-2xl">🕒</span>
                 <div>
-                  <h3 className="font-bold text-slate-900 text-lg">Gottesdienstzeiten</h3>
-                  <p className="text-indigo-950 font-bold text-base mt-1">Jeden Sonntag: 11:00 - 13:00 Uhr</p>
-                  <p className="text-slate-600 text-sm">Gebetstreffen: Donnerstag 18:30 Uhr</p>
+                  <h3 className="font-bold text-slate-900 text-lg">{t.serviceHeader}</h3>
+                  <p className="text-indigo-950 font-bold text-base mt-1">
+                    {t.sundayService}
+                  </p>
+                  <p className="text-slate-600 text-sm">
+                    {t.prayerMeeting}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
 
+          {/* Embedded Google Map */}
           <div className="bg-slate-200 rounded-2xl overflow-hidden min-h-[320px] shadow-sm border border-slate-300">
             <iframe
               className="w-full h-full min-h-[320px]"
@@ -217,8 +302,9 @@ export default function Home() {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
+            />
           </div>
+
         </div>
       </section>
 
