@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import SermonsSection from './components/SermonsSection';
 import { useLanguage } from './context/LanguageContext';
+import { currentWeeklyEvents } from './data/homeEvents';
 
 const translations = {
   de: {
@@ -12,6 +14,10 @@ const translations = {
     serviceHeader: 'Gottesdienstzeiten',
     sundayService: 'Jeden Sonntag: 11:00 - 13:00 Uhr',
     prayerMeeting: 'Gebetstreffen: Donnerstag 18:30 Uhr',
+    eventsTag: 'VERANSTALTUNGEN',
+    eventsTitle: 'Aktuelle & Anstehende Termine',
+    eventsSub: 'Seien Sie Teil unserer wöchentlichen Gottesdienste und Gemeindeveranstaltungen.',
+    viewAllEvents: 'Alle Veranstaltungen ansehen',
   },
   en: {
     locationTitle: 'Our Location in Munich / Dachau',
@@ -20,6 +26,10 @@ const translations = {
     serviceHeader: 'Service Times',
     sundayService: 'Every Sunday: 11:00 AM - 1:00 PM',
     prayerMeeting: 'Prayer Meeting: Thursday 6:30 PM',
+    eventsTag: 'EVENTS',
+    eventsTitle: 'Current & Upcoming Events',
+    eventsSub: 'Join us for our weekly worship services and special church gatherings.',
+    viewAllEvents: 'View All Events',
   },
   am: {
     locationTitle: 'አድራሻችን በሙኒክ / ዳካው',
@@ -28,6 +38,10 @@ const translations = {
     serviceHeader: 'የአምልኮ ጊዜያት',
     sundayService: 'እሁድ ሁሉ: ከጠዋቱ 11:00 - 1:00 ሰዓት',
     prayerMeeting: 'የጸሎት ጊዜ: ሐሙስ 18:30 (ከቀኑ 12:30)',
+    eventsTag: 'ሁነቶች',
+    eventsTitle: 'የቅርብ ጊዜ መርሃ ግብሮች',
+    eventsSub: 'በሳምንታዊ የአምልኮ ፕሮግራሞቻችን እና በልዩ ሁነቶች ላይ ይሳተፉ።',
+    viewAllEvents: 'ሁሉንም መርሃ ግብሮች ይመልከቱ',
   },
 };
 
@@ -248,6 +262,85 @@ export default function Home() {
 
       {/* Dynamic YouTube Sermons Component */}
       <SermonsSection lang={currentLang} />
+
+      {/* Current & Upcoming Events Section */}
+      <section className="bg-white border-y border-slate-200/80 py-16 px-6">
+        <div className="max-w-6xl mx-auto">
+          
+          {/* Section Title Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+            <div>
+              <div className="flex items-center space-x-2 text-amber-600 text-xs font-bold uppercase tracking-widest">
+                <span>📅</span>
+                <span>{t.eventsTag}</span>
+              </div>
+              <h2 className="text-2xl md:text-4xl font-serif font-bold text-[#0f1d2a] mt-1">
+                {t.eventsTitle}
+              </h2>
+              <p className="text-slate-600 text-sm md:text-base mt-2 max-w-2xl">
+                {t.eventsSub}
+              </p>
+            </div>
+
+            <Link
+              href="/events"
+              className="inline-flex items-center space-x-2 bg-[#0f1d2a] hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition shadow-sm self-start md:self-auto shrink-0"
+            >
+              <span>{t.viewAllEvents}</span>
+              <span>→</span>
+            </Link>
+          </div>
+
+          {/* Dynamic Event Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {currentWeeklyEvents.map((event, idx) => (
+              <div
+                key={idx}
+                className="bg-slate-50 rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-4"
+              >
+                <div className="space-y-3">
+                  {/* Top Row: Date Badge & Category Tag */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2 bg-white px-3 py-1 rounded-lg border border-slate-200/60 shadow-2xs">
+                      <span className="text-xs font-bold text-amber-600 uppercase">
+                        {event.month[currentLang]}
+                      </span>
+                      <span className="text-lg font-bold font-serif text-[#0f1d2a]">
+                        {event.day}
+                      </span>
+                    </div>
+                    <span className={`px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${event.badgeColor}`}>
+                      {event.badge[currentLang]}
+                    </span>
+                  </div>
+
+                  {/* Event Title & Description */}
+                  <h3 className="text-lg font-serif font-bold text-[#0f1d2a] leading-snug">
+                    {event.title[currentLang]}
+                  </h3>
+
+                  <p className="text-slate-600 text-xs md:text-sm leading-relaxed">
+                    {event.desc[currentLang]}
+                  </p>
+                </div>
+
+                {/* Bottom Info: Time & Location */}
+                <div className="pt-4 border-t border-slate-200/60 space-y-1.5 text-xs text-slate-500">
+                  <div className="flex items-center space-x-2">
+                    <span>🕒</span>
+                    <span className="font-medium text-slate-700">{event.time[currentLang]}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span>📍</span>
+                    <span>{event.location[currentLang]}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
 
       {/* Dynamic Location & Services Section */}
       <section className="max-w-6xl mx-auto py-16 px-6">

@@ -56,8 +56,20 @@ export default function Footer() {
   const f = translations[currentLang] || translations.de;
 
   return (
-    <footer className="bg-[#14202c] text-slate-300 pt-12 pb-8 border-t border-slate-800/60 text-sm">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-10">
+    <footer className="relative bg-[#14202c]/75 text-slate-300 pt-12 pb-8 border-t border-slate-800/60 text-sm overflow-hidden">
+      
+      {/* Background Hero Photo */}
+      <img
+        src="/Slide1.png"
+        alt="Church Fellowship Background"
+        className="absolute inset-0 w-full h-full object-cover object-center opacity-30 pointer-events-none"
+      />
+
+      {/* Subtle Overlay gradient */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#14202c] via-[#14202c]/60 to-[#14202c]/80 z-10 pointer-events-none" />
+
+      {/* Footer Content */}
+      <div className="relative z-20 max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-10">
         
         {/* Column 1: Church Name & Contact */}
         <div className="space-y-4">
@@ -118,7 +130,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom Copyright Line */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 mt-12 pt-6 border-t border-slate-800/80 text-center text-xs text-slate-400">
+      <div className="relative z-20 max-w-7xl mx-auto px-6 md:px-12 mt-12 pt-6 border-t border-slate-800/80 text-center text-xs text-slate-400">
         © {new Date().getFullYear()} Christ's Evangelical Church in Munich. {f.rights}
       </div>
     </footer>
